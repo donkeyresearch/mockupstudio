@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import LivePreview from './LivePreview'
 
 function CamStat({ label, value }) {
   return (
@@ -17,12 +18,12 @@ export default function SpecCard({ shot }) {
       <aside className="right-panel">
         <div className="spec-empty">
           <div className="spec-empty-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="1" y="1" width="16" height="16" rx="3" stroke="#444" strokeWidth="1.2" />
-              <circle cx="9" cy="9" r="3" stroke="#444" strokeWidth="1.2" />
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="1" y="1" width="18" height="18" rx="4" stroke="#b0b5cc" strokeWidth="1.5" />
+              <circle cx="10" cy="10" r="3.5" stroke="#b0b5cc" strokeWidth="1.5" />
             </svg>
           </div>
-          <p>Select a shot to view camera settings, use cases, and the AI prompt.</p>
+          <p>Pick a shot to see camera specs and your AI prompt.</p>
         </div>
       </aside>
     )
@@ -38,20 +39,22 @@ export default function SpecCard({ shot }) {
   return (
     <aside className="right-panel">
       <div className="spec-card">
+
+        {/* Live Preview — top of spec card */}
+        <LivePreview shot={shot} />
+
         <div className="spec-shot-name">
           <h2>{shot.shotName}</h2>
-          <p>
-            {shot.angle} · {shot.lighting} · {shot.surface} surface
-          </p>
+          <p>{shot.angle} · {shot.lighting} · {shot.surface} surface</p>
         </div>
 
         <div className="spec-section">
           <div className="spec-section-label">Camera Settings</div>
           <div className="camera-settings">
             <CamStat label="Focal length" value={shot.camera.focal} />
-            <CamStat label="Aperture" value={shot.camera.aperture} />
-            <CamStat label="Light ratio" value={shot.camera.ratio} />
-            <CamStat label="Distance" value={shot.camera.distance} />
+            <CamStat label="Aperture"     value={shot.camera.aperture} />
+            <CamStat label="Light ratio"  value={shot.camera.ratio} />
+            <CamStat label="Distance"     value={shot.camera.distance} />
           </div>
         </div>
 
@@ -59,9 +62,7 @@ export default function SpecCard({ shot }) {
           <div className="spec-section-label">Use Cases</div>
           <div className="use-case-tags">
             {shot.useCases.map((tag) => (
-              <span key={tag} className="use-case-tag">
-                {tag}
-              </span>
+              <span key={tag} className="use-case-tag">{tag}</span>
             ))}
           </div>
         </div>
@@ -86,6 +87,7 @@ export default function SpecCard({ shot }) {
           <div className="spec-section-label">Figma / Handoff Note</div>
           <p className="figma-note">{shot.figmaNote}</p>
         </div>
+
       </div>
     </aside>
   )
