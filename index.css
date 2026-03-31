@@ -1,0 +1,505 @@
+/* ─── Reset ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Design Tokens ─────────────────────────────────────────────── */
+:root {
+  --bg:           #edeef1;
+  --panel:        #ffffff;
+  --card:         #ffffff;
+  --card-shadow:  0 2px 10px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05);
+  --card-shadow-selected: 0 0 0 2.5px #3b82f6, 0 4px 20px rgba(59,130,246,0.18);
+  --border:       #e2e2e8;
+  --border-mid:   #d0d0d8;
+  --text:         #1a1f36;
+  --text-2:       #5a6078;
+  --text-3:       #9499b0;
+  --accent:       #3b82f6;
+  --accent-dim:   rgba(59,130,246,0.10);
+  --accent-glow:  rgba(59,130,246,0.20);
+  --green:        #16a34a;
+  --font:         'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-label:   'Nunito', 'Geist', sans-serif;
+  --mono:         'Geist Mono', 'Fira Code', monospace;
+  --radius:       14px;
+  --radius-sm:    8px;
+}
+
+/* ─── Dot pattern background ────────────────────────────────────── */
+html, body, #root { height: 100%; overflow: hidden; }
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(circle, #c4c5cc 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────── */
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ─── Topbar ─────────────────────────────────────────────────────── */
+.topbar {
+  height: 56px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.topbar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.topbar-logo {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-family: var(--font-label);
+}
+
+.topbar-sub {
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 400;
+}
+
+.topbar-spacer { flex: 1; }
+
+.topbar-badge {
+  font-size: 11px;
+  color: var(--text-3);
+  font-family: var(--mono);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+/* ─── Left Panel ─────────────────────────────────────────────────── */
+.left-panel {
+  width: 228px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.left-panel::-webkit-scrollbar { width: 0; }
+
+.filter-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-mid);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  font-family: var(--font);
+  letter-spacing: 0.01em;
+}
+
+.pill:hover {
+  border-color: var(--text-3);
+  color: var(--text);
+  background: rgba(0,0,0,0.03);
+}
+
+.pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.surface-toggle {
+  display: flex;
+  background: var(--bg);
+  border: 1.5px solid var(--border-mid);
+  border-radius: 99px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.surface-btn {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 8px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--text-2);
+  background: transparent;
+  border: none;
+  border-radius: 99px;
+  font-family: var(--font);
+  transition: all 0.12s ease;
+}
+
+.surface-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.reset-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  padding: 4px 0;
+  text-align: left;
+  transition: color 0.12s ease;
+  letter-spacing: 0.02em;
+}
+
+.reset-btn:hover { color: var(--text-2); }
+
+/* ─── Center Panel ───────────────────────────────────────────────── */
+.center-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.center-panel::-webkit-scrollbar { width: 0; }
+
+.grid-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.grid-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  font-family: var(--font-label);
+  line-height: 1;
+}
+
+.grid-count {
+  font-size: 13px;
+  color: var(--text-3);
+  font-weight: 600;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ─── Shot Card — sticker style ─────────────────────────────────── */
+.shot-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+  outline: none;
+  border: 2px solid transparent;
+}
+
+.shot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.shot-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.shot-card.selected {
+  border-color: var(--accent);
+  box-shadow: var(--card-shadow-selected);
+}
+
+/* Diagram area — light background for SVGs */
+.card-diagram {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #f5f6f9;
+  border-bottom: 1.5px solid #ebebf0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.card-diagram svg { width: 90%; height: 90%; }
+
+/* Sticker label area */
+.card-meta {
+  padding: 12px 14px 14px;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--text);
+  font-family: var(--font-label);
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+.card-sub {
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.card-lighting-tag {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--bg);
+  color: var(--text-2);
+  letter-spacing: 0.03em;
+  font-family: var(--font);
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-3);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+/* ─── Right Panel ────────────────────────────────────────────────── */
+.right-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-panel::-webkit-scrollbar { width: 0; }
+
+/* Empty state */
+.spec-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px;
+  color: var(--text-3);
+  text-align: center;
+}
+
+.spec-empty-icon {
+  width: 48px;
+  height: 48px;
+  border: 2px dashed var(--border-mid);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.spec-empty p {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.7;
+  color: var(--text-3);
+}
+
+/* Spec card */
+.spec-card { flex: 1; display: flex; flex-direction: column; }
+
+.spec-shot-name {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.spec-shot-name h2 {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--text);
+  font-family: var(--font-label);
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.spec-shot-name p {
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.spec-section {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.spec-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+/* Camera settings grid */
+.camera-settings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cam-item {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 11px;
+}
+
+.cam-item-label {
+  font-size: 10px;
+  color: var(--text-3);
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.cam-item-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+/* Use case tags */
+.use-case-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.use-case-tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--bg);
+  border: 1.5px solid var(--border-mid);
+  color: var(--text-2);
+  font-weight: 600;
+}
+
+/* Shot notes */
+.shot-notes {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* Prompt block */
+.prompt-block {
+  background: #f5f6f9;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-2);
+  line-height: 1.65;
+  word-break: break-word;
+  margin-bottom: 10px;
+}
+
+.copy-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-mid);
+  background: transparent;
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  letter-spacing: 0.02em;
+}
+
+.copy-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.copy-btn.copied {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(22,163,74,0.08);
+}
+
+/* Figma note */
+.figma-note {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.65;
+  font-family: var(--mono);
+}
