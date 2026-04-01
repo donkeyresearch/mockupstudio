@@ -236,22 +236,47 @@ function DeviceShell({ device, lighting, angle, surface }) {
   )
 }
 
-export default function LivePreview({ shot }) {
+// Derive aperture blur level from f-stop string
+function apertureToBlur(apertureStr) {
+  const match = apertureStr?.match(/f\/(\d+\.?\d*)/)
+  if (!match) return 0
+  const fnum = parseFloat(match[1])
+  // Wide aperture (low f) = more blur. f/1.4 → blur 6px, f/11 → 0px
+  return Math.max(0, Math.round((3 - Math.log2(fnum / 1.4)) * 1.5))
+}
+
+// Derive shadow intensity from lighting ratio string
+function ratioToShadowOpacity(ratioStr) {
+  const match = ratioStr?.match(/(\d+):1/)
+  if (!match) return 0.18
+  const ratio = parseInt(match[1])
+  // 1:1 = flat (0.06), 10:1 = dramatic (0.55)
+  return Math.min(0.55, 0.06 + (ratio - 1) * 0.055)
+}
+
+export default function LivePreview({ shot, camera }) {
   const lc = LIGHTING_CONFIG[shot.lighting] || LIGHTING_CONFIG['Studio White']
   const angleStyle = ANGLE_STYLE[shot.angle] || ANGLE_STYLE['Hero 3/4']
+
+  // Live camera-driven effects
+  const activeCam   = camera || shot.camera
+  const bgBlur      = apertureToBlur(activeCam.aperture)
+  const shadowOpacity = ratioToShadowOpacity(activeCam.ratio)
 
   return (
     <div className="live-preview-wrapper">
       <div className="live-preview-label">Live Preview</div>
 
       <div className="live-preview-stage" style={{ background: lc.bg }}>
-        {/* Background atmosphere */}
+        {/* Background atmosphere — blurs based on aperture */}
         <div className="live-preview-atmos" style={{
           background: shot.lighting === 'Studio White' || shot.lighting === 'Overcast Flat'
             ? 'radial-gradient(ellipse at 40% 40%, rgba(255,255,255,0.6) 0%, transparent 70%)'
             : shot.lighting === 'Soft Window'
             ? 'linear-gradient(110deg, rgba(255,245,200,0.3) 0%, transparent 60%)'
             : 'radial-gradient(ellipse at 50% 0%, rgba(60,100,255,0.08) 0%, transparent 60%)',
+          filter: bgBlur > 0 ? `blur(${bgBlur}px)` : 'none',
+          transition: 'filter 0.3s ease',
         }} />
 
         {/* 3D transformed device */}
@@ -277,8 +302,11 @@ export default function LivePreview({ shot }) {
           {shot.lighting}
         </div>
 
-        {/* Ground shadow */}
-        <div className="live-preview-shadow" />
+        {/* Ground shadow — intensity driven by lighting ratio */}
+        <div className="live-preview-shadow" style={{
+          background: `radial-gradient(ellipse, rgba(0,0,0,${shadowOpacity}) 0%, transparent 75%)`,
+          transition: 'background 0.3s ease',
+        }} />
       </div>
     </div>
   )

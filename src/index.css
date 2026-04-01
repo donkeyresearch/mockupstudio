@@ -575,6 +575,352 @@ body {
   font-family: var(--mono);
 }
 
+/* ─── Spec section header (label + reset) ───────────────────────── */
+.spec-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-3);
+}
+
+.spec-section-header .spec-section-label { margin-bottom: 0; }
+
+/* Reset field button — only visible when dirty */
+.reset-field-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+  cursor: pointer;
+  font-family: var(--font);
+  line-height: 1.4;
+  transition: background 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+.reset-field-btn:hover { background: rgba(37,99,235,0.18); }
+.reset-field-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Per-field dot reset */
+.reset-dot-btn {
+  font-size: 11px;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.1s;
+}
+.reset-dot-btn:hover { opacity: 1; }
+.reset-dot-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ─── Camera fields ──────────────────────────────────────────────── */
+.cam-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.cam-field {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-3);
+  transition: border-color 0.15s;
+}
+
+.cam-field.modified {
+  border-color: var(--accent);
+  background: rgba(37,99,235,0.04);
+}
+
+.cam-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+}
+
+/* ─── Stepper ────────────────────────────────────────────────────── */
+.cam-stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.stepper-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-mid);
+  background: var(--panel);
+  color: var(--text-2);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: border-color 0.1s, color 0.1s, background 0.1s;
+  flex-shrink: 0;
+}
+.stepper-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.stepper-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.stepper-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.stepper-value {
+  flex: 1;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--mono);
+  min-width: 60px;
+}
+
+/* ─── Focal slider ───────────────────────────────────────────────── */
+.focal-slider-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.focal-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat var(--border);
+  background-size: 50% 100%;
+  outline: none;
+  cursor: pointer;
+}
+.focal-slider:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.focal-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.3);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.focal-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.focal-slider::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.focal-ticks {
+  display: flex;
+  justify-content: space-between;
+}
+.focal-tick {
+  font-size: 9px;
+  color: var(--text-3);
+  font-family: var(--mono);
+  font-weight: 500;
+  text-align: center;
+  flex: 1;
+  transition: color 0.15s, font-weight 0.15s;
+}
+.focal-tick.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ─── Camera explainer (disclosure row) ─────────────────────────── */
+.cam-explainer {
+  margin-top: var(--sp-2);
+}
+
+.cam-explainer-trigger {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  font-family: var(--font);
+}
+.cam-explainer-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.cam-explainer-icon {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--border-mid);
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: background 0.1s, color 0.1s;
+}
+.cam-explainer-trigger:hover .cam-explainer-icon,
+.cam-explainer-trigger[aria-expanded="true"] .cam-explainer-icon {
+  background: var(--accent);
+  color: white;
+}
+
+.cam-explainer-impact {
+  font-size: 10px;
+  color: var(--text-3);
+  font-weight: 500;
+  line-height: 1.5;
+  flex: 1;
+}
+.cam-explainer-trigger:hover .cam-explainer-impact { color: var(--text-2); }
+
+.cam-explainer-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+  overflow: hidden;
+  margin-top: var(--sp-1);
+  margin-left: 22px;
+}
+.cam-explainer-panel.open { grid-template-rows: 1fr; }
+
+.cam-explainer-panel > * { overflow: hidden; }
+
+.cam-explainer-headline {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-2);
+  margin-bottom: var(--sp-1);
+  line-height: 1.5;
+  padding-top: var(--sp-2);
+}
+
+.cam-explainer-body {
+  font-size: var(--text-xs);
+  color: var(--text-3);
+  line-height: 1.7;
+  padding-bottom: var(--sp-2);
+}
+
+/* ─── Editable prompt ────────────────────────────────────────────── */
+.prompt-editor-wrap {
+  position: relative;
+  margin-bottom: var(--sp-2);
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: #f4f5f8;
+  transition: border-color 0.15s;
+}
+.prompt-editor-wrap:focus-within {
+  border-color: var(--accent);
+  background: #fff;
+}
+.prompt-editor-wrap.dirty { border-color: var(--accent); }
+
+.prompt-textarea {
+  width: 100%;
+  padding: var(--sp-3);
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  color: var(--text-2);
+  line-height: 1.7;
+  word-break: break-word;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  min-height: 80px;
+  display: block;
+}
+.prompt-textarea:focus { color: var(--text); }
+
+.prompt-edited-badge {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+}
+
+/* Copy button variants */
+.copy-btn--sm {
+  font-size: var(--text-xs);
+  padding: 7px var(--sp-3);
+  min-height: 36px;
+}
+
+/* ─── Toast ──────────────────────────────────────────────────────── */
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--text);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  animation: toastIn 0.2s ease;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast-msg {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.toast-undo {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: #93c5fd;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  padding: 2px 0;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.toast-undo:hover { color: #bfdbfe; }
+.toast-undo:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; border-radius: 2px; }
+
 /* ─── Live Preview ───────────────────────────────────────────────── */
 .live-preview-wrapper { border-bottom: 1px solid var(--border); }
 
